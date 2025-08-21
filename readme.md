@@ -22,7 +22,7 @@ CREATE USER devuser WITH PASSWORD 'devpassword';
 GRANT ALL PRIVILEGES ON DATABASE devdb TO devuser;
 ```
 
-3) Crie o arquivo `.env` na raiz do projeto com ao menos as variáveis abaixo (ajuste conforme seu ambiente). Estou deixando as que usei no meu ambiente:
+3) Crie o arquivo `.env` na raiz do projeto com ao menos as variáveis abaixo (ajuste conforme seu ambiente):
 
 ```env
 # Application 
@@ -49,9 +49,9 @@ REFRESH_SECRET=12345
 REFRESH_LIFE=1d
 
 # Conect sistem
-CON_USER_NAME="Samuel Silva"
-CON_USER_EMAIL="samuelrodrigues.silva001@gmail.com"
-CON_USER_PASSWORD="Kp#8Vz!2Xq@Lr7^Tf5Ws"
+CON_USER_NAME="your_username"
+CON_USER_EMAIL="your_email@example.com"
+CON_USER_PASSWORD="your_secure_password"
 
 # test
 SKIP_INTEGRATION=0
