@@ -17,47 +17,105 @@ npm install
 
 Substitua os valores conforme necessário:
 ```sql
--- no psql ou admin tool
 CREATE DATABASE devdb;
 CREATE USER devuser WITH PASSWORD 'devpassword';
 GRANT ALL PRIVILEGES ON DATABASE devdb TO devuser;
 ```
 
-3) Variáveis de ambiente mínimas (.env)
-Crie um arquivo `.env` na raiz com pelo menos:
-```
-APP_VERSION=v1
+3) Crie o arquivo `.env` na raiz do projeto com ao menos as variáveis abaixo (ajuste conforme seu ambiente). Estou deixando as que usei no meu ambiente:
+
+```env
+# Application 
+APP_VERSION=v1 
+
+# Server 
+NODE_ENV=development 
 PORT=3333
+
+# Database connection 
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=devuser
 DB_PASSWORD=devpassword
 DB_DATABASE=devdb
-TOKEN_SECRET=algumsegredosecreto
-REFRESH_SECRET=outrosegredo
-TOKEN_LIFE=1h
-REFRESH_LIFE=7d
-SALT=10
-CON_USER_EMAIL=seu_email_de_integracao
-CON_USER_PASSWORD=sua_senha_de_integracao
+
+# JWT
+# Security
+MIN_SALT=6
+MAX_SALT=12
+TOKEN_SECRET=12345
+TOKEN_LIFE=10h
+REFRESH_SECRET=12345
+REFRESH_LIFE=1d
+
+# Conect sistem
+CON_USER_NAME="Samuel Silva"
+CON_USER_EMAIL="samuelrodrigues.silva001@gmail.com"
+CON_USER_PASSWORD="Kp#8Vz!2Xq@Lr7^Tf5Ws"
+
+# test
+SKIP_INTEGRATION=0
+TEST_BYPASS_AUTH=1 
+
+# url
+CON_URL="https://compliance-api.cubos.io/"
 ```
 
-4) Rodar migrations
+4) Rode as migrations
 
 ```bash
-npx knex migrate:latest --knexfile knexfile.ts --cwd .
+npx ts-node -r tsconfig-paths/register node_modules/knex/bin/cli.js migrate:latest --knexfile knexfile.ts
 ```
 
-5) Rodar seeds (opcional)
+5) Rode os seeds (opcional)
 
 ```bash
-npx knex seed:run --knexfile knexfile.ts --cwd .
+npx ts-node -r tsconfig-paths/register node_modules/knex/bin/cli.js seed:run --knexfile knexfile.ts
 ```
 
-6) Iniciar servidor
+6) Inicie a aplicação
 
 ```bash
 npm start
-# ou em modo dev
+# Ou modo dev (recomendado durante desenvolvimento)
 npm run dev
 ```
+
+## Executando testes (local)
+
+Unit e integração leve (por padrão as integrações que exigem DB ficam desabilitadas):
+
+```bash
+npm test
+```
+
+Se quiser forçar integração contra seu banco local, exporte as variáveis e execute com SKIP_INTEGRATION=0:
+
+```bash
+SKIP_INTEGRATION=0 APP_VERSION=v1 TEST_BYPASS_AUTH=1 npx vitest --run
+```
+
+## Docker (recomendado para rodar tudo facilmente)
+
+Os arquivos `Dockerfile`, `docker-compose.yml` e `docker-entrypoint.sh` já estão adicionados. O comando abaixo sobe um container Postgres e o container da aplicação; a aplicação espera o banco, executa migrations e seeds e em seguida inicia.
+
+1) Build + start (modo normal):
+
+```bash
+docker compose up --build
+```
+
+2) Para rodar apenas os testes dentro do container (as migrations/seeds serão executadas antes):
+
+```bash
+# exemplo: roda tests e sai
+docker compose run --rm -e RUN_TESTS=1 app
+```
+
+## Principais endpoints (prefixo `/v1` por padrão)
+- POST /v1/people -> criar usuário
+- POST /v1/login -> autenticação
+- POST /v1/accounts -> criar conta (auth)
+- GET /v1/accounts -> listar contas (auth)
+- POST /v1/accounts/:accountId/cards -> criar cartão (auth)
+- GET /v1/cards -> listar todos os cartões (auth)

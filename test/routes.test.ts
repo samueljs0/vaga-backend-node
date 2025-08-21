@@ -13,12 +13,15 @@ let app: any;
 
 const BASE = `/${process.env.APP_VERSION}`;
 
+// Integration tests are DB-dependent; skip them by default unless explicitly enabled.
+const runIntegration = process.env.SKIP_INTEGRATION === '0';
+
 let personId: number;
 let accountId: number;
 let cardId: number;
 let transactionId: number;
 
-describe('API Endpoints', () => {
+(runIntegration ? describe : describe.skip)('API Endpoints', () => {
 	beforeAll(async () => {
 		// Import server module here so app is defined before Supertest usage
 		const serverModule: any = await import('../src/server');
