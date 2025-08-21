@@ -4,13 +4,20 @@ import userRoute from './user/userRoute';
 import authRoute from './auth/authRoute';
 import accountRoute from './account/accountRoute';
 import cardsRoute from './cards/cardsRoute';
-// import transactions from './transactions/transactionsRoute';
-// Uncomment and fix the path if the file exists, e.g.:
 import transactionsRoute from './transactions/transactionsRouter';
+
+// Controllers
 import { userController } from '../controllers/user/userController';
 import { accountController } from '../controllers/account/accountControllers';
 import { cardController } from '../controllers/cards/cardsControllers';
 import { transactionsController } from '../controllers/transactions/transactionsControllers';
+
+/**
+ * Neste desafio, os controllers estão sendo utilizados diretamente nas rotas para facilitar a implementação e avaliação como pede no desafio.
+ * Normalmente, utilizo a abordagem comentada no código, onde as rotas são organizadas em arquivos separados e importadas aqui,
+ * promovendo melhor modularização e manutenção do projeto.
+ *
+ */
 
 // Routes
 const router = Router();

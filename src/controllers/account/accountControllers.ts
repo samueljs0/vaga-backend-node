@@ -96,13 +96,15 @@ export const accountController = {
         try {
             // Validate branch: must be exactly 3 digits
             if (branch.length !== 3) {
-                res.status(400).json({ message: 'o tamnho dos digitos é 3 e vc madou: ' + branch });
+                // Return standardized error expected by tests
+                res.status(400).json({ message: 'account.create.branch.invalid' });
                 return;
             }
 
             // Validate account mask: must be 7 digits, dash, 1 digit (total 9 chars)
             if (account.length !== 9) {
-                res.status(400).json({ message: 'o tamanho dos digitos é 7 e vc mandou: ' + account });
+                // Return standardized error expected by tests
+                res.status(400).json({ message: 'account.create.account.invalid' });
                 return;
             }
 

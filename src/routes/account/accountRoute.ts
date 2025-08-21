@@ -5,9 +5,9 @@ import { accountController } from '../../controllers/account/accountControllers'
 const router = Router();
 
 router.get('/', accountController.index);
-router.get('/:id/', accountController.show);
-router.post('/create/', accountController.create);
-router.put('/update/:id/', accountController.update);
+router.get('/:accountId/', accountController.show);
+router.post('/create/:accountId/', accountController.create);
+router.put('/update/:accountId/', accountController.update);
 router.delete('/delete/:id/', accountController.delete);
 
 export default router;
