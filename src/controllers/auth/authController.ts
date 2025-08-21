@@ -157,6 +157,14 @@ export const authController = {
      * Middleware para validar o token JWT de acesso.
      */
     async auth(req: Request, res: Response, next: Function): Promise<Response | void> {
+        // Test shortcut: when running tests we may want to bypass real JWT
+        // verification. Set TEST_BYPASS_AUTH=1 in the test environment to
+        // allow requests to be treated as authenticated with a fake user.
+        if (process.env.TEST_BYPASS_AUTH === '1') {
+            (req as any).user = { id: 1 };
+            return next();
+        }
+
         const authHeader = (req.headers.authorization || req.headers.Authorization) as string | undefined;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return res.status(401).json({

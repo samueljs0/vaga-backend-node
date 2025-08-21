@@ -17,10 +17,16 @@ app.use(`/${process.env.APP_VERSION}`, routerApp);
 // PORT
 const PORT = process.env.PORT || 3333;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Only start listening when not running tests so importing the module for
+// Supertest doesn't start a real server.
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
 
 // Start message
 console.log(` VERSION      : ${process.env.APP_VERSION}`);
 console.log(` PORT         : ${PORT}`);
+
+export default app;

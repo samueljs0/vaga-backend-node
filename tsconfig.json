@@ -4,14 +4,14 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "esModuleInterop": true,
-    "outDir": "dist",
-    "rootDir": "src",
+  "outDir": "dist",
+  "rootDir": ".",
     "strict": true,
     "skipLibCheck": true
 
 
     
   },
-  "include": ["src"],
+  "include": ["src", "knexfile.ts"],
   "exclude": ["node_modules", "dist"]
 }

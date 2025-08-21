@@ -5,9 +5,9 @@ import { cardController } from '../../controllers/cards/cardsControllers';
 const router = Router();
 
 router.get('/', cardController.index);
-router.get('/:id/', cardController.show);
-router.post('/create/', cardController.create);
+router.get('/:accountId/', cardController.show);
+router.post('/create/:accountId/', cardController.create);
 router.put('/update/:id/', cardController.update);
-router.delete('/delete/:id/', cardController.delete);
+router.delete('/delete/:id/', cardController.delete); 
 
 export default router;

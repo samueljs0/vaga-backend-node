@@ -3,11 +3,12 @@ import { transactionsController } from '../../controllers/transactions/transacti
 
 const router = Router();
 
-router.get('/', transactionsController.index);
-router.get('/:id/', transactionsController.show);
-router.post('/create/', transactionsController.create);
-router.post('/transaction/', transactionsController.createTransfer);
+router.get('/:accountId/transactions/', transactionsController.index);
+router.get('/:accountId/transactions/:transactionId/', transactionsController.show);
+router.post('/:accountId/transactions/', transactionsController.create);
+router.post('/:accountId/transactions/internal/', transactionsController.createTransfer);
+router.post('/:accountId/transactions/:transactionId/revert/', transactionsController.reverseTransaction);
 router.delete('/delete/:id/', transactionsController.delete);
-router.post('/reverse/:id/', transactionsController.reverseTransaction);
+router.put('/update/:id/', transactionsController.update);
 
 export default router;
