@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      APP_VERSION: ${APP_VERSION}
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      TOKEN_SECRET: ${TOKEN_SECRET}
+      REFRESH_SECRET: ${REFRESH_SECRET}
+      TOKEN_LIFE: ${TOKEN_LIFE}
+      REFRESH_LIFE: ${REFRESH_LIFE}
+      SALT: ${SALT}
+    ports:
+      - '${PORT}:${PORT}'
+    volumes:
+      - ./:/usr/src/app
+    command: /bin/bash /usr/src/app/docker-entrypoint.sh
+
+volumes:
+  db-data:
