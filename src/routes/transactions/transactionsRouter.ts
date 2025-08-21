@@ -6,7 +6,8 @@ const router = Router();
 router.get('/', transactionsController.index);
 router.get('/:id/', transactionsController.show);
 router.post('/create/', transactionsController.create);
-router.put('/update/:id/', transactionsController.update);
+router.post('/transaction/', transactionsController.createTransfer);
 router.delete('/delete/:id/', transactionsController.delete);
+router.post('/reverse/:id/', transactionsController.reverseTransaction);
 
 export default router;

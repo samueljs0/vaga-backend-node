@@ -7,20 +7,20 @@ console.log('Migration: BALANCE');
 export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('balance', (table) => {
         // ID
-        table.uuid('id').primary();
+        table.increments('id').primary();
         
         // Foreign Key - users
-        table.integer('user_id').notNullable();
-        table.foreign('user_id').references('users.id').onDelete('CASCADE');
+        table.integer('userId').notNullable();
+        table.foreign('userId').references('users.id').onDelete('CASCADE');
         
-        table.decimal('value', 14, 2).notNullable().checkPositive('value');
+    table.decimal('value', 14, 2).notNullable().defaultTo(0.00);
 
         // Description
-        table.string('description', 255).notNullable();
-    
-        // Timestamps
-        table.timestamp('createdAt', { useTz: false }).notNullable();
-        table.timestamp('updatedAt', { useTz: false }).notNullable();
+        table.string('description', 255).nullable();
+
+    // Timestamps
+    table.timestamp('createdAt').notNullable().defaultTo(knex.fn.now());
+    table.timestamp('updatedAt').notNullable().defaultTo(knex.fn.now());
     });
 }
 

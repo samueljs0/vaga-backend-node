@@ -10,8 +10,8 @@ export async function up(knex: Knex): Promise<void> {
         table.increments('id').primary();
 
         // Foreign Key - users
-        table.integer('user_id').notNullable();
-        table.foreign('user_id').references('users.id').onDelete('CASCADE');
+        table.integer('userId').notNullable();
+        table.foreign('userId').references('users.id').onDelete('CASCADE');
 
         // Data token
         table.string('token', 1024).notNullable();

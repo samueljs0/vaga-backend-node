@@ -7,17 +7,16 @@ console.log('Migration: TRANSACTIONS');
 export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('transactions', (table) => {
         // ID
-        table.uuid('id').primary();
+        table.increments('id').primary();
 
         // Foreign key to balance table
-        table.uuid('balanceIDTransfer').notNullable()
+        table.integer('balanceIDTransfer').notNullable()
             .references('id').inTable('balance')
             .onDelete('CASCADE');
 
-        table.uuid('balanceIDReceive').notNullable()
+        table.integer('balanceIDReceive').nullable()
             .references('id').inTable('balance')
             .onDelete('CASCADE');
-        
 
         // type: credit or debit 
         table.enu('type', ['credit', 'debit']).notNullable();
@@ -27,6 +26,16 @@ export async function up(knex: Knex): Promise<void> {
 
         // Description
         table.string('description', 255).notNullable();
+
+        // Reversed From ID
+        table.integer('reversedFromId').nullable()
+            .references('id').inTable('transactions')
+            .onDelete('SET NULL');
+
+        // Foreign key to accounts table
+        table.integer('accountId').notNullable()
+            .references('id').inTable('accounts')
+            .onDelete('CASCADE');
 
         // Timestamps
         table.timestamp('createdAt').notNullable().defaultTo(knex.fn.now());
