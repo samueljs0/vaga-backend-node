@@ -8,11 +8,11 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('accounts', (table) => {
 
         // ID 
-        table.uuid('id').primary();
+        table.increments('id').primary();
         
         // Foreign Key - users
-        table.integer('user_id').notNullable();
-        table.foreign('user_id').references('users.id').onDelete('CASCADE');
+        table.integer('userId').notNullable();
+        table.foreign('userId').references('users.id').onDelete('CASCADE');
 
         // Branch: exatamente 3 dígitos
         table.string('branch', 3).notNullable();

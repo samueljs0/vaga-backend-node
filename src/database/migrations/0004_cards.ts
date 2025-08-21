@@ -7,7 +7,7 @@ console.log('Migration: CARDS');
 export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('cards', (table) => {
         // ID
-        table.uuid('id').primary();
+        table.increments('id').primary();
 
         // Card type: 'physical' or 'virtual'
         table.enu('type', ['physical', 'virtual']).notNullable();
@@ -15,12 +15,17 @@ export async function up(knex: Knex): Promise<void> {
         // Card number: full number on creation, but only last 4 digits returned in API
         table.string('number', 19).notNullable();
 
-        // CVV: exactly 3 digits
+        // cvv: exactly 3 digits
         table.string('cvv', 3).notNullable();
 
         // Foreign key to accounts table
-        table.uuid('accountId').notNullable()
+        table.integer('accountId').notNullable()
             .references('id').inTable('accounts')
+            .onDelete('CASCADE')
+            ;
+        // Foreign key to users table
+        table.integer('userId').notNullable()
+            .references('id').inTable('users')
             .onDelete('CASCADE');
 
         // Timestamps
